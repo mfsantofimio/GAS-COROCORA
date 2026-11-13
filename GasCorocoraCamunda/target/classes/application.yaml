@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # Base de datos en archivo para no perder las instancias al reiniciar
+    url: jdbc:h2:file:./h2/camunda-db
+
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks
+
+# ---------------------------------------------------------------------------
+# Parametros de negocio de GAS COROCORA (leidos por Spring y usados en el BPMN)
+# Los plazos usan formato ISO-8601. Valores cortos para la demostracion en clase;
+# el valor real de negocio se indica en el comentario.
+# ---------------------------------------------------------------------------
+gascorocora:
+  plazos:
+    pago-factura: PT5M            # real: P30D  (plazo para pagar la factura)
+    alerta-termino-pqrs: PT2M     # real: P10D  (alerta antes de vencer los 15 dias habiles)
+    termino-recurso-pqrs: PT5M    # real: P7D   (5 dias habiles para interponer recurso)
+    plazo-obra-conexion: PT10M    # real: P20D  (plazo maximo del contratista)
+  tarifas:
+    valor-m3: 2350                # COP por m3 (supuesto)
+    cargo-fijo: 4500              # COP por factura (supuesto)
+  conexion:
+    costo-base: 1150000           # meta PPM-P2-04: <= $1.150.000 por conexion
+    costo-extension-metro: 85000  # COP por metro de extension de red
+    metros-incluidos: 40          # metros cubiertos por el costo base
